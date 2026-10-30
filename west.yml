@@ -14,4 +14,28 @@ manifest:
       remote: ncs
       repo-path: sdk-nrf
       revision: main
-      import: true
+      import:
+        path-prefix: deps
+        # Only fetch what a Bluetooth LE app on nRF52/nRF53/nRF54 needs. Applies to Zephyr's imports too.
+        name-allowlist:
+          # Zephyr and Cortex-M support
+          - zephyr
+          - cmsis
+          - cmsis_6
+          - picolibc
+          - segger
+          # Nordic HAL, SoftDevice Controller/MPSL and crypto (nrf_security)
+          - hal_nordic
+          - nrfxlib
+          - mbedtls
+          - oberon-psa-crypto
+          - tf-psa-crypto
+          # Bootloader and DFU (mcumgr)
+          - mcuboot
+          - zcbor
+          # Uncomment to build non-secure (/ns) board targets with TF-M
+          # - trusted-firmware-m
+          # - tf-m-tests
+          # - qcbor
+          # - t_cose
+          # - psa-arch-tests
