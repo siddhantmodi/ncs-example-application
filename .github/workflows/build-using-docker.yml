@@ -1,49 +1,26 @@
-name: Build and test app in NCS docker container
+name: Build and test app in Docker container
 
 on:
   pull_request:
   push:
 
 jobs:
-  set-image-tag:
-    runs-on: ubuntu-24.04
-    outputs:
-      IMAGE_TAG: ${{ steps.set-output.outputs.IMAGE_TAG }}
-    steps:
-      - name: Checkout repository with example application
-        uses: actions/checkout@v4
-        with:
-          path: example-application
-
-      - name: Prepare west project
-        run: |
-          python3 -m pip install west
-          west init -l example-application
-          west update -o=--depth=1 -n nrf
-
-      - name: Find toolchain bundle id
-        id: set-output
-        run: echo "IMAGE_TAG=$(./nrf/scripts/print_toolchain_checksum.sh)" >> $GITHUB_OUTPUT
-
   build-and-test-in-docker:
-    needs: set-image-tag
     runs-on: ubuntu-24.04
-    container: ghcr.io/nrfconnect/sdk-nrf-toolchain:${{ needs.set-image-tag.outputs.IMAGE_TAG }}
-    defaults:
-      run:
-        # Bash shell is needed to set toolchain related environment variables in docker container
-        # It is a workaround for GitHub Actions limitation https://github.com/actions/runner/issues/1964
-        shell: bash
+    container:
+      # CI image from https://github.com/siddhantmodi/zephyrrtos-docker
+      # Keep the Zephyr SDK version in sync with .devcontainer/devcontainer.json
+      image: ghcr.io/siddhantmodi/zephyr-ci:zsdk_v1.0.1
+      # The image defaults to 'user', but GitHub Actions needs root to write to the mounted workspace
+      options: --user root
     steps:
       - name: Checkout repository with example application
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: example-application
 
       - name: Prepare west project
-        run: |
-          west init -l example-application
-          west update -o=--depth=1 -n
+        run: ./example-application/west_setup.sh
 
       - name: Build firmware
         working-directory: example-application
@@ -51,7 +28,7 @@ jobs:
           west twister -T app -v --inline-logs --integration
 
       - name: Store hex files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: built-applications
           path: example-application/twister-out/**/zephyr/zephyr.hex

@@ -1,10 +1,10 @@
 # nRF Connect SDK example application
 
-<a href="https://github.com/nrfconnect/ncs-example-application/actions/workflows/build-using-docker.yml?query=branch%3Amain">
-  <img src="https://github.com/nrfconnect/ncs-example-application/actions/workflows/build-using-docker.yml/badge.svg?event=push">
+<a href="https://github.com/siddhantmodi/ncs-example-application/actions/workflows/build-using-docker.yml?query=branch%3Amain">
+  <img src="https://github.com/siddhantmodi/ncs-example-application/actions/workflows/build-using-docker.yml/badge.svg?event=push">
 </a>
-<a href="https://github.com/nrfconnect/ncs-example-application/actions/workflows/docs.yml?query=branch%3Amain">
-  <img src="https://github.com/nrfconnect/ncs-example-application/actions/workflows/docs.yml/badge.svg?event=push">
+<a href="https://github.com/siddhantmodi/ncs-example-application/actions/workflows/docs.yml?query=branch%3Amain">
+  <img src="https://github.com/siddhantmodi/ncs-example-application/actions/workflows/docs.yml/badge.svg?event=push">
 </a>
 <a href="https://nrfconnect.github.io/ncs-example-application">
   <img alt="Documentation" src="https://img.shields.io/badge/documentation-3D578C?logo=sphinx&logoColor=white">
